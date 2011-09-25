@@ -1,7 +1,16 @@
 package com.pivot13;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
+import android.util.Log;
+import android.widget.Toast;
 import com.google.android.c2dm.C2DMBaseReceiver;
 
 import java.io.IOException;
@@ -17,12 +26,18 @@ import java.io.IOException;
  */
 public class C2DMReceiver extends C2DMBaseReceiver {
 
+    public static final int MESSAGE_KEY = 1;
+    public static final String REG_ID = "regId";
+    public static final CharSequence REGISTRATION_SUCCESS_MESSAGE = "C2DM Registration Successful!";
+    public static final CharSequence REGISTRATION_ERROR_MESSAGE = "C2DM Registration Error: ";
+
+
     /**
      * The senderId is a google email address, such as a gmail address or a apps-for-your-domain gmail address.
      * Use the same address when registering a device with C2DM.
      */
     public C2DMReceiver() {
-        super("example@a_google_acount.com");
+        super(C2DeMoApplication.C2DM_SENDER_KEY);
     }
 
     /**
@@ -42,6 +57,22 @@ public class C2DMReceiver extends C2DMBaseReceiver {
      */
     @Override
     protected void onMessage(Context context, Intent intent) {
+
+        String message = intent.getStringExtra("message");
+        String moreData = intent.getStringExtra("moreData");
+        String notificationText = new StringBuilder()
+                .append("message: ").append(message).append("; ")
+                .append("moreData: ").append(moreData).toString();
+
+
+        Notification notification = new Notification(android.R.drawable.ic_dialog_alert, "Ticker Ticker ticker!! " + notificationText, SystemClock.currentThreadTimeMillis());
+
+        notification.setLatestEventInfo(context, "C2DeMo Message", notificationText, PendingIntent.getBroadcast(context, 0, new Intent(), 0));
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        notificationManager.notify(MESSAGE_KEY, notification);
+        Log.v("pivot13", "************ about to notify!!!!!!!!!!!!!!!!!!!!!!!!");
     }
 
     /**
@@ -59,8 +90,19 @@ public class C2DMReceiver extends C2DMBaseReceiver {
      * registration_ids and might receiving duplicate notifications.
      */
     @Override
-    public void onRegistered(Context context, String registrationId) throws IOException {
+    public void onRegistered(final Context context, String registrationId) throws IOException {
         super.onRegistered(context, registrationId);
+        SharedPreferences.Editor editor = getSharedPreferences("C2DM", 0).edit();
+        editor.putString(REG_ID, registrationId);
+        editor.commit();
+        Log.v("pivot13", registrationId);
+        
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, REGISTRATION_SUCCESS_MESSAGE, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     /**
@@ -70,7 +112,14 @@ public class C2DMReceiver extends C2DMBaseReceiver {
      * Called on Registration error. See http://code.google.com/android/c2dm/#handling_reg
      */
     @Override
-    public void onError(Context context, String errorId) {
+    public void onError(final Context context, final String errorId) {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                String errorMessage = new StringBuilder().append(REGISTRATION_ERROR_MESSAGE).append(": ").append(errorId).toString();
+                Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     /**

@@ -1,6 +1,6 @@
 package com.pivot13.test.support;
 
-import com.pivot13.MySampleApplication;
+import com.pivot13.C2DeMoApplication;
 import com.pivot13.util.CurrentTime;
 import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
@@ -15,7 +15,7 @@ public class RobolectricTestRunnerWithInjection extends RobolectricTestRunner {
 
     @Override
     public void prepareTest(Object test) {
-        MySampleApplication application = (MySampleApplication) Robolectric.application;
+        C2DeMoApplication application = (C2DeMoApplication) Robolectric.application;
         application.setModule(new TestApplicationModule());
         application.getInjector().injectMembers(test);
     }

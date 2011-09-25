@@ -11,15 +11,18 @@
     <uses-permission android:name="com.pivot13.permission.C2D_MESSAGE"/>
     <!-- This app has permission to register and receive message -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <!-- C2DM needs this permission or else C2DM Registration will crash  -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- Send the registration id to the server. Many apps will want this permission even when C2DM is not needed. -->
     <uses-permission android:name="android.permission.INTERNET"/>
+
     <!-- End of C2DM permissions -->
     
     <application
         android:label="@string/app_name"
         android:icon="@drawable/icon"
-        android:name=".MySampleApplication">
-        <activity android:name=".StarterActivity"
+        android:name=".C2DeMoApplication">
+        <activity android:name=".HomeActivity"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

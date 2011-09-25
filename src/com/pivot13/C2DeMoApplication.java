@@ -6,7 +6,8 @@ import roboguice.config.AbstractAndroidModule;
 
 import java.util.List;
 
-public class MySampleApplication extends RoboInjectableApplication {
+public class C2DeMoApplication extends RoboInjectableApplication {
+    public static final String C2DM_SENDER_KEY = "c2dm@pivot13.com";
     private Module module = new ApplicationModule();
 
     @Override

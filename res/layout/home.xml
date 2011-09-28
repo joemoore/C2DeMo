@@ -45,7 +45,6 @@
                       android:hint="Google Account Email"
                       android:singleLine="true"
                       android:inputType="textEmailAddress"
-                      android:text="c2dm@pivot13.com"
                 />
 
             <EditText android:id="@+id/senderPassword"
@@ -53,7 +52,6 @@
                       android:layout_width="fill_parent"
                       android:hint="Google Account Password"
                       android:password="true"
-                      android:text="c2dmpushforandroid"
                 />
 
             <Button

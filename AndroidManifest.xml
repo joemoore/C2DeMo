@@ -20,7 +20,7 @@
     
     <application
         android:label="@string/app_name"
-        android:icon="@drawable/icon"
+        android:icon="@drawable/ic_launcher"
         android:name=".C2DeMoApplication">
         <activity android:name=".HomeActivity"
                   android:label="@string/app_name">

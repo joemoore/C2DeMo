@@ -5,6 +5,9 @@ import roboguice.application.RoboInjectableApplication;
 import roboguice.config.AbstractAndroidModule;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class C2DeMoApplication extends RoboInjectableApplication {
     public static final String C2DM_SENDER_KEY = "c2dm@pivot13.com";
@@ -23,6 +26,10 @@ public class C2DeMoApplication extends RoboInjectableApplication {
     public static class ApplicationModule extends AbstractAndroidModule {
         @Override
         protected void configure() {
+            final ExecutorService executorService = Executors.newFixedThreadPool(5);
+            bind(Executor.class).toInstance(executorService);
+            bind(ExecutorService.class).toInstance(executorService);
+
             /*Samples of injection binding*/
             //        bind(FooBar.class).in(Scopes.SINGLETON);
             //        bind(Date.class).toProvider(FakeDateProvider.class);

@@ -7,6 +7,9 @@
     <JAVADOC />
     <SOURCES>
       <root url="jar://$PROJECT_DIR$/libs-src/android-src/10/sources.zip!/" />
+      <root url="file://$USER_HOME$/Downloads/httpcomponents-core-4.1.3/httpcore/src/main/java" />
+      <root url="file://$USER_HOME$/Downloads/httpcomponents-core-4.1.3/httpcore/src/test/java" />
+      <root url="file://$USER_HOME$/Downloads/httpcomponents-core-4.1.3/httpcore/src/examples" />
     </SOURCES>
   </library>
 </component>

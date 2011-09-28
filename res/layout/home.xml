@@ -1,27 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:background="@android:color/white"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
     >
-    <TextView
-        android:id="@+id/title"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:textSize="20dip"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10dip"
-        android:text="C2DeMo"
-        />
+        android:layout_height="fill_parent"
+        android:background="@android:color/white"
+        >
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="20dip"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dip"
+            android:text="Test C2DM Notifications"
+            />
+        <LinearLayout android:id="@+id/authSection"
+                      android:orientation="vertical"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_margin="10dip"
+                      android:padding="5dip"
+                      android:background="#DDD">
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/registerButton"
-        android:text="Register"
-        />
+            <TextView
+                android:id="@+id/authTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="15dip"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dip"
+                android:text="@string/auth_title"
+                android:singleLine="true"
+                />
 
-</LinearLayout>
+            <EditText android:id="@+id/senderEmail"
+                      android:layout_height="wrap_content"
+                      android:layout_width="fill_parent"
+                      android:hint="Google Account Email"
+                      android:singleLine="true"
+                      android:inputType="textEmailAddress"
+                      android:text="c2dm@pivot13.com"
+                />
+
+            <EditText android:id="@+id/senderPassword"
+                      android:layout_height="wrap_content"
+                      android:layout_width="fill_parent"
+                      android:hint="Google Account Password"
+                      android:password="true"
+                      android:text="c2dmpushforandroid"
+                />
+
+            <Button
+                android:id="@+id/authWithGoogleButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Authenticate with Google"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dip"
+            android:padding="5dip"
+            android:background="#DDD">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="15dip"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dip"
+                android:text="@string/register_title"
+                android:singleLine="true"
+                />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/registerButton"
+                android:text="Register This Device"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dip"
+            android:padding="5dip"
+            android:background="#DDD">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="15dip"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dip"
+                android:text="@string/send_title"
+                android:singleLine="true"
+                />
+            <EditText android:id="@+id/notificationText"
+                      android:layout_height="wrap_content"
+                      android:layout_width="fill_parent"
+                      android:hint="Notification Text"
+                      android:singleLine="true"
+                />
+            <Button
+                android:id="@+id/sendNotification"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Send Notification"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
 

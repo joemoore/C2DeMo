@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">C2DeMo</string>
+    <string name="register_button">"Register This Device"</string>
+    <string name="auth_title"><b>Register to Send</b> C2DM Notifications</string>
+    <string name="register_title"><b>Register to Receive</b> C2DM Notifications</string>
+    <string name="send_title">Send Yourself a Notification</string>
 </resources>

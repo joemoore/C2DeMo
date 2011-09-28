@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.android.c2dm.C2DMBaseReceiver;
 
 import java.io.IOException;
+import java.util.Random;
 
 /**
  * NOTE: C2DM is supported in API v.2.2 and above but is safely ignored in lower versions.
@@ -26,7 +27,6 @@ import java.io.IOException;
  */
 public class C2DMReceiver extends C2DMBaseReceiver {
 
-    public static final int MESSAGE_KEY = 1;
     public static final String REG_ID = "regId";
     public static final CharSequence REGISTRATION_SUCCESS_MESSAGE = "C2DM Registration Successful!";
     public static final CharSequence REGISTRATION_ERROR_MESSAGE = "C2DM Registration Error: ";
@@ -59,19 +59,22 @@ public class C2DMReceiver extends C2DMBaseReceiver {
     protected void onMessage(Context context, Intent intent) {
 
         String message = intent.getStringExtra("message");
-        String moreData = intent.getStringExtra("moreData");
-        String notificationText = new StringBuilder()
-                .append("message: ").append(message).append("; ")
-                .append("moreData: ").append(moreData).toString();
+        String notificationText = new StringBuilder().append(message).toString();
 
+        Notification notification = new Notification(
+                        android.R.drawable.ic_dialog_info,
+                        "New Message: " + notificationText,
+                        SystemClock.currentThreadTimeMillis());
 
-        Notification notification = new Notification(android.R.drawable.ic_dialog_alert, "Ticker Ticker ticker!! " + notificationText, SystemClock.currentThreadTimeMillis());
-
-        notification.setLatestEventInfo(context, "C2DeMo Message", notificationText, PendingIntent.getBroadcast(context, 0, new Intent(), 0));
+        notification.setLatestEventInfo(
+                context,
+                "C2DeMo Message",
+                notificationText,
+                PendingIntent.getBroadcast(context, 0, new Intent(), 0));
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-        notificationManager.notify(MESSAGE_KEY, notification);
+        notificationManager.notify(new Random().nextInt(), notification);
         Log.v("pivot13", "************ about to notify!!!!!!!!!!!!!!!!!!!!!!!!");
     }
 
@@ -93,7 +96,7 @@ public class C2DMReceiver extends C2DMBaseReceiver {
     public void onRegistered(final Context context, String registrationId) throws IOException {
         super.onRegistered(context, registrationId);
         SharedPreferences.Editor editor = getSharedPreferences("C2DM", 0).edit();
-        editor.putString(REG_ID, registrationId);
+        editor.putString(REG_ID, registrationId.trim());
         editor.commit();
         Log.v("pivot13", registrationId);
         

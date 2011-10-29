@@ -39,7 +39,7 @@ public class C2DMessaging {
 
     // package
     static final String PREFERENCE = "com.google.android.c2dm";
-    
+
     private static final long DEFAULT_BACKOFF = 30000;
 
     /**
@@ -88,14 +88,14 @@ public class C2DMessaging {
                 Context.MODE_PRIVATE);
         return prefs.getLong(LAST_REGISTRATION_CHANGE, 0);
     }
-    
+
     static long getBackoff(Context context) {
         final SharedPreferences prefs = context.getSharedPreferences(
                 PREFERENCE,
                 Context.MODE_PRIVATE);
         return prefs.getLong(BACKOFF, DEFAULT_BACKOFF);
     }
-    
+
     static void setBackoff(Context context, long backoff) {
         final SharedPreferences prefs = context.getSharedPreferences(
                 PREFERENCE,

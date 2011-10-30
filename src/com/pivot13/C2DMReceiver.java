@@ -99,7 +99,7 @@ public class C2DMReceiver extends C2DMBaseReceiver {
         editor.putString(REG_ID, registrationId.trim());
         editor.commit();
         Log.v("pivot13", registrationId);
-        
+
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {

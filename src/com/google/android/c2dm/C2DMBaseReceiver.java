@@ -55,7 +55,7 @@ public abstract class C2DMBaseReceiver extends RoboIntentService {
     public static final String ERR_INVALID_PARAMETERS = "INVALID_PARAMETERS";
     public static final String ERR_INVALID_SENDER = "INVALID_SENDER";
     public static final String ERR_PHONE_REGISTRATION_ERROR = "PHONE_REGISTRATION_ERROR";
-    
+
     // wakelock
     private static final String WAKELOCK_KEY = "C2DM_LIB";
 
@@ -63,7 +63,7 @@ public abstract class C2DMBaseReceiver extends RoboIntentService {
     private final String senderId;
 
     /**
-     * The C2DMReceiver class must create a no-arg constructor and pass the 
+     * The C2DMReceiver class must create a no-arg constructor and pass the
      * sender id to be used for registration.
      */
     public C2DMBaseReceiver(String senderId) {
@@ -71,7 +71,7 @@ public abstract class C2DMBaseReceiver extends RoboIntentService {
         super(senderId);
         this.senderId = senderId;
     }
-    
+
     /**
      * Called when a cloud message has been received.
      */
@@ -80,7 +80,7 @@ public abstract class C2DMBaseReceiver extends RoboIntentService {
     /**
      * Called on registration error. Override to provide better
      * error messages.
-     *  
+     *
      * This is called in the context of a Service - no dialog or UI.
      */
     public abstract void onError(Context context, String errorId);
@@ -98,7 +98,7 @@ public abstract class C2DMBaseReceiver extends RoboIntentService {
     public void onUnregistered(Context context) {
     }
 
-    
+
     @Override
     public final void onHandleIntent(Intent intent) {
         try {
@@ -112,42 +112,42 @@ public abstract class C2DMBaseReceiver extends RoboIntentService {
             }
         } finally {
             //  Release the power lock, so phone can get back to sleep.
-            // The lock is reference counted by default, so multiple 
+            // The lock is reference counted by default, so multiple
             // messages are ok.
-            
+
             // If the onMessage() needs to spawn a thread or do something else,
             // it should use it's own lock.
             mWakeLock.release();
         }
     }
 
-    
+
     /**
-     * Called from the broadcast receiver. 
+     * Called from the broadcast receiver.
      * Will process the received intent, call handleMessage(), registered(), etc.
-     * in background threads, with a wake lock, while keeping the service 
-     * alive. 
+     * in background threads, with a wake lock, while keeping the service
+     * alive.
      */
     static void runIntentInService(Context context, Intent intent) {
         if (mWakeLock == null) {
             // This is called from BroadcastReceiver, there is no init.
-            PowerManager pm = 
+            PowerManager pm =
                 (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, 
+            mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                     WAKELOCK_KEY);
         }
         mWakeLock.acquire();
-       
-        // Use a naming convention, similar with how permissions and intents are 
-        // used. Alternatives are introspection or an ugly use of statics. 
+
+        // Use a naming convention, similar with how permissions and intents are
+        // used. Alternatives are introspection or an ugly use of statics.
         String receiver = context.getPackageName() + ".C2DMReceiver";
         intent.setClassName(context, receiver);
-        
+
         context.startService(intent);
 
     }
-    
-    
+
+
     private void handleRegistration(final Context context, Intent intent) {
         final String registrationId = intent.getStringExtra(EXTRA_REGISTRATION_ID);
         String error = intent.getStringExtra(EXTRA_ERROR);
@@ -171,12 +171,12 @@ public abstract class C2DMBaseReceiver extends RoboIntentService {
             onError(context, error);
             if ("SERVICE_NOT_AVAILABLE".equals(error)) {
                 long backoffTimeMs = C2DMessaging.getBackoff(context);
-                
+
                 Log.d(TAG, "Scheduling registration retry, backoff = " + backoffTimeMs);
                 Intent retryIntent = new Intent(C2DM_RETRY);
-                PendingIntent retryPIntent = PendingIntent.getBroadcast(context, 
+                PendingIntent retryPIntent = PendingIntent.getBroadcast(context,
                         0 /*requestCode*/, retryIntent, 0 /*flags*/);
-                
+
                 AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                 am.set(AlarmManager.ELAPSED_REALTIME,
                         backoffTimeMs, retryPIntent);
@@ -184,7 +184,7 @@ public abstract class C2DMBaseReceiver extends RoboIntentService {
                 // Next retry should wait longer.
                 backoffTimeMs *= 2;
                 C2DMessaging.setBackoff(context, backoffTimeMs);
-            } 
+            }
         } else {
             try {
                 onRegistered(context, registrationId);
